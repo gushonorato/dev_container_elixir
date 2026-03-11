@@ -63,6 +63,11 @@ defmodule Mix.Tasks.DevContainer.Install do
         useradd --uid $USER_UID --gid $USER_GID --create-home --shell /bin/bash dev && \
         echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev
 
+    # Tidewave CLI (AI-powered development tool)
+    RUN curl -sL -o /usr/local/bin/tidewave \
+        https://github.com/tidewave-ai/tidewave_app/releases/latest/download/tidewave-cli-$(uname -m)-unknown-linux-musl && \
+        chmod +x /usr/local/bin/tidewave
+
     # Playwright system deps (needs root)
     RUN npx playwright install-deps chromium
 
@@ -111,6 +116,8 @@ defmodule Mix.Tasks.DevContainer.Install do
         environment:
           - DATABASE_HOST=host.docker.internal
           - DATABASE=${DATABASE:-${APP_NAME}_dev}
+        ports:
+          - "9000:9000"
         extra_hosts:
           - "host.docker.internal:host-gateway"
         labels:
