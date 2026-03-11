@@ -30,8 +30,8 @@ defmodule Mix.Tasks.DevContainer.Start do
     Mix.shell().info("""
     \nContainer running. To open a shell:
 
-        scripts/dev_container/dev-container-run          # bash
-        scripts/dev_container/dev-container-run claude   # claude code
+        ./dev-run          # bash
+        ./dev-run claude   # claude code
     """)
   end
 end
