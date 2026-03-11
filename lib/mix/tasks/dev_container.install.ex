@@ -69,7 +69,7 @@ defmodule Mix.Tasks.DevContainer.Install do
 
     # Tidewave CLI (AI-powered development tool)
     RUN curl -sL -o /usr/local/bin/tidewave \
-        https://github.com/tidewave-ai/tidewave_app/releases/latest/download/tidewave-cli-$(uname -m)-unknown-linux-musl && \
+        https://github.com/tidewave-ai/tidewave_app/releases/latest/download/tidewave-cli-$(uname -m)-unknown-linux-gnu && \
         chmod +x /usr/local/bin/tidewave
 
     # Playwright system deps (needs root)
