@@ -19,6 +19,8 @@ defmodule DevContainerElixir do
 
     * `mix dev_container.database` — prints the convention-based container/database name
 
+    * `mix dev_container.install_ralph` — downloads Ralph agent scripts into `scripts/ralph/`
+
   ## Quick Start
 
       mix dev_container.install
