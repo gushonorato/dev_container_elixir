@@ -36,7 +36,7 @@ defmodule Mix.Tasks.DevContainer.Install do
     ~S"""
     ARG ELIXIR_VERSION=1.19.5
     ARG OTP_VERSION=28.2
-    ARG UBUNTU_VERSION=ubuntu-noble-20250529
+    ARG UBUNTU_VERSION=ubuntu-noble-20260210.1
 
     FROM hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-${UBUNTU_VERSION}
 
