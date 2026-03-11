@@ -35,7 +35,7 @@ mix dev_container.build
 mix dev_container.start
 
 # 4. Run commands inside the container
-scripts/dev_container/dev-container-run iex -S mix phx.server
+./dev-run iex -S mix phx.server
 ```
 
 ## Available Tasks
@@ -49,11 +49,12 @@ scripts/dev_container/dev-container-run iex -S mix phx.server
 | `mix dev_container.destroy` | Removes the dev container and its volumes |
 | `mix dev_container.status` | Shows metadata from running dev containers |
 | `mix dev_container.database` | Prints the convention-based container/database name |
+| `mix dev_container.install_ralph` | Downloads Ralph agent scripts into `scripts/ralph/` |
 
 ## Conventions
 
 - Container and database names are derived from your app name with a `_dev` suffix (e.g., `my_app_dev`)
-- The generated Dockerfile includes Node.js, Playwright, and Claude Code CLI pre-installed
+- The generated Dockerfile includes Vim, Node.js, Playwright, and Claude Code CLI pre-installed
 - Docker containers are tagged with labels for service discovery by the `status` task
 
 ## License
