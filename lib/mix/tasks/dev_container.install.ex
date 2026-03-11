@@ -61,7 +61,9 @@ defmodule Mix.Tasks.DevContainer.Install do
     # Create non-root user with matching UID/GID for bind-mount compatibility
     ARG USER_UID=1000
     ARG USER_GID=1000
-    RUN groupadd --gid $USER_GID dev && \
+    RUN userdel -r $(getent passwd $USER_UID | cut -d: -f1) 2>/dev/null || true && \
+        groupdel $(getent group $USER_GID | cut -d: -f1) 2>/dev/null || true && \
+        groupadd --gid $USER_GID dev && \
         useradd --uid $USER_UID --gid $USER_GID --create-home --shell /bin/bash dev && \
         echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev
 
