@@ -43,7 +43,7 @@ defmodule Mix.Tasks.DevContainer.Install do
     # System deps: build tools, runtime libs, inotify for live reload
     RUN apt-get update -y && \
         apt-get install -y \
-          build-essential git curl sudo vim procps \
+          build-essential git curl sudo vim procps unzip \
           libstdc++6 openssl libncurses5 locales ca-certificates \
           inotify-tools \
         && curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
