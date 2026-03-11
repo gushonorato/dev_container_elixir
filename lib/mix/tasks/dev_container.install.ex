@@ -36,14 +36,14 @@ defmodule Mix.Tasks.DevContainer.Install do
     ~S"""
     ARG ELIXIR_VERSION=1.19.5
     ARG OTP_VERSION=28.2
-    ARG DEBIAN_VERSION=bookworm-20260202-slim
+    ARG UBUNTU_VERSION=ubuntu-noble-20250529
 
-    FROM hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}
+    FROM hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-${UBUNTU_VERSION}
 
     # System deps: build tools, runtime libs, inotify for live reload
     RUN apt-get update -y && \
         apt-get install -y \
-          build-essential git curl sudo vim procps unzip \
+          build-essential git curl sudo vim procps \
           libstdc++6 openssl libncurses5 locales ca-certificates \
           inotify-tools \
         && curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
@@ -75,11 +75,6 @@ defmodule Mix.Tasks.DevContainer.Install do
 
     # Switch to non-root user for remaining setup
     USER dev
-
-    # Bun runtime
-    RUN curl -fsSL https://bun.sh/install | bash
-    ENV BUN_INSTALL="/home/dev/.bun"
-    ENV PATH="${BUN_INSTALL}/bin:${PATH}"
 
     # Elixir tools
     RUN mix local.hex --force && mix local.rebar --force
