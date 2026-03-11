@@ -5,7 +5,7 @@ defmodule Mix.Tasks.DevContainer.Install do
 
     * `Dockerfile.dev` — development Docker image
     * `docker-compose.dev.yml` — Docker Compose config
-    * `scripts/dev_container/dev-container-run` — shell script to exec into container
+    * `dev-run` — shell script to exec into container
 
       mix dev_container.install
   """
@@ -20,7 +20,7 @@ defmodule Mix.Tasks.DevContainer.Install do
     create_file(Path.join(root, "Dockerfile.dev"), dockerfile_template())
     create_file(Path.join(root, "docker-compose.dev.yml"), compose_template())
 
-    script_path = Path.join(root, "scripts/dev_container/dev-container-run")
+    script_path = Path.join(root, "dev-run")
     create_file(script_path, run_script_template())
     File.chmod!(script_path, 0o755)
 
@@ -128,7 +128,7 @@ defmodule Mix.Tasks.DevContainer.Install do
     #!/usr/bin/env bash
     set -euo pipefail
 
-    PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+    PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
     APP_NAME="$(grep -m1 'app:' "$PROJECT_ROOT/mix.exs" | sed 's/.*app: :\([a-z_]*\).*/\1/')"
     NAME="${APP_NAME}_dev"
     COMPOSE_FILE="${PROJECT_ROOT}/docker-compose.dev.yml"
@@ -151,9 +151,9 @@ defmodule Mix.Tasks.DevContainer.Install do
       echo ""
       echo "Depois tente novamente:"
       echo ""
-      echo "  scripts/dev_container/dev-container-run                          # bash"
-      echo "  scripts/dev_container/dev-container-run claude                   # claude code"
-      echo "  scripts/dev_container/dev-container-run iex -S mix phx.server   # phoenix com iex"
+      echo "  ./dev-run                          # bash"
+      echo "  ./dev-run claude                   # claude code"
+      echo "  ./dev-run iex -S mix phx.server   # phoenix com iex"
       echo ""
       exit 1
     fi
