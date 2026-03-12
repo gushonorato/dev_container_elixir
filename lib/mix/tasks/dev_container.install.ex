@@ -59,6 +59,7 @@ defmodule Mix.Tasks.DevContainer.Install do
     ENV LC_ALL=en_US.UTF-8
     ENV TERM=xterm-256color
     ENV COLORTERM=truecolor
+    ENV DEV_CONTAINER_ELIXIR=true
 
     # Create non-root user with matching UID/GID for bind-mount compatibility
     ARG USER_UID=1000
