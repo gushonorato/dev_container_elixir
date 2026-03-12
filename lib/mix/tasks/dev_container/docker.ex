@@ -12,7 +12,7 @@ defmodule Mix.Tasks.DevContainer.Docker do
   def container_name do
     app = Mix.Project.config()[:app]
     dir = project_root() |> Path.basename()
-    "#{app}.#{dir}"
+    "#{app}_#{dir}"
   end
 
   def docker_compose(args, opts \\ []) do
