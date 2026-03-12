@@ -141,7 +141,7 @@ defmodule Mix.Tasks.DevContainer.Install do
 
     PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
     APP_NAME="$(grep -m1 'app:' "$PROJECT_ROOT/mix.exs" | sed 's/.*app: :\([a-z_]*\).*/\1/')"
-    NAME="${APP_NAME}_dev"
+    NAME="${APP_NAME}.$(basename "$PROJECT_ROOT")"
     COMPOSE_FILE="${PROJECT_ROOT}/docker-compose.dev.yml"
 
     if [ $# -eq 0 ]; then

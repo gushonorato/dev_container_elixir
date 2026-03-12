@@ -10,7 +10,9 @@ defmodule Mix.Tasks.DevContainer.Docker do
   end
 
   def default_name do
-    "#{Mix.Project.config()[:app]}_dev"
+    app = Mix.Project.config()[:app]
+    dir = project_root() |> Path.basename()
+    "#{app}.#{dir}"
   end
 
   def env(name) do

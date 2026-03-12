@@ -6,7 +6,8 @@ defmodule Mix.Tasks.DevContainer.DatabaseTest do
   describe "run/1" do
     test "prints the default container name" do
       output = capture_io(fn -> Mix.Tasks.DevContainer.Database.run([]) end)
-      assert output =~ "dev_container_elixir_dev"
+      dir = Mix.Project.project_file() |> Path.dirname() |> Path.basename()
+      assert output =~ "dev_container_elixir.#{dir}"
     end
   end
 end

@@ -27,7 +27,7 @@ defmodule DevContainerElixir do
       mix dev_container.build
       mix dev_container.start
 
-  Container and database names are derived from your app name with a `_dev` suffix
-  (e.g., an app named `:my_app` gets container name `my_app_dev`).
+  Container and database names use `app_name.dirname` format
+  (e.g., an app named `:my_app` in directory `my_app` gets container name `my_app.my_app`).
   """
 end

@@ -30,7 +30,7 @@ All code lives under `lib/mix/tasks/` as Mix tasks following the `Mix.Tasks.DevC
 - `Database` — prints the convention-based container/database name
 
 **Key conventions:**
-- Container and database names are derived from `Mix.Project.config()[:app]` with `_dev` suffix
+- Container and database names use `app_name.dirname` format (e.g., `my_app.my_app` for the main project, `my_app.feature_branch` for a worktree)
 - Docker containers are tagged with labels (`dev.app_name`, `dev.database`, etc.) for service discovery by the `status` task
 - The generated Dockerfile includes Claude Code CLI, Node.js, and Playwright pre-installed
 - Environment variables (`APP_NAME`, `APP_SRC_PATH`, `CONTAINER_NAME`, `DATABASE`) are passed to Docker Compose from Mix project config

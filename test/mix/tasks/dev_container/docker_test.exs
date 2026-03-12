@@ -14,8 +14,9 @@ defmodule Mix.Tasks.DevContainer.DockerTest do
   end
 
   describe "default_name/0" do
-    test "returns app name with _dev suffix" do
-      assert Docker.default_name() == "dev_container_elixir_dev"
+    test "returns app_name.dirname format" do
+      dir = Mix.Project.project_file() |> Path.dirname() |> Path.basename()
+      assert Docker.default_name() == "dev_container_elixir.#{dir}"
     end
   end
 
