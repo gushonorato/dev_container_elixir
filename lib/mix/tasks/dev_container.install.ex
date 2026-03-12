@@ -31,6 +31,12 @@ defmodule Mix.Tasks.DevContainer.Install do
 
         mix dev_container.build    # Build the Docker image
         mix dev_container.start    # Start the container
+
+    Tip: Configure your database hostname in config/dev.exs to work
+    both inside and outside the container:
+
+        config :#{app_name}, #{app_name |> to_string() |> Macro.camelize()}.Repo,
+          hostname: if(System.get_env("DEV_CONTAINER_ELIXIR"), do: "host.docker.internal", else: "localhost")
     """)
   end
 
