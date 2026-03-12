@@ -48,7 +48,6 @@ defmodule Mix.Tasks.DevContainer.InstallTest do
 
       compose = File.read!(Path.join(root, "docker-compose.dev.yml"))
       assert compose =~ "services:"
-      assert compose =~ "dev.app_name"
       assert compose =~ "sleep infinity"
 
       script = File.read!(Path.join(root, "dev-run"))

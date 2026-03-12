@@ -16,12 +16,14 @@ defmodule Mix.Tasks.DevContainer.Install do
   @impl Mix.Task
   def run(_args) do
     root = Mix.Project.project_file() |> Path.dirname()
+    app_name = Mix.Project.config()[:app]
+    container_name = Mix.Tasks.DevContainer.Docker.container_name()
 
     create_file(Path.join(root, "Dockerfile.dev"), dockerfile_template())
-    create_file(Path.join(root, "docker-compose.dev.yml"), compose_template())
+    create_file(Path.join(root, "docker-compose.dev.yml"), compose_template(app_name, container_name))
 
     script_path = Path.join(root, "dev-run")
-    create_file(script_path, run_script_template())
+    create_file(script_path, run_script_template(container_name))
     File.chmod!(script_path, 0o755)
 
     Mix.shell().info("""
@@ -102,46 +104,36 @@ defmodule Mix.Tasks.DevContainer.Install do
     |> String.trim_leading()
   end
 
-  defp compose_template do
-    ~S"""
+  defp compose_template(app_name, container_name) do
+    """
     services:
       dev:
-        image: ${APP_NAME}-dev
-        container_name: ${CONTAINER_NAME:-${APP_NAME}-dev}
+        image: #{app_name}_dev_container_elixir
+        container_name: #{container_name}
         build:
           context: .
           dockerfile: Dockerfile.dev
         stdin_open: true
         tty: true
         volumes:
-          - "${APP_SRC_PATH:-.}:/app"
+          - ".:/app"
           - "${HOME}/.claude_container/.claude.json:/home/dev/.claude.json"
           - "${HOME}/.claude_container/.claude:/home/dev/.claude"
-        environment:
-          - DATABASE_HOST=host.docker.internal
-          - DATABASE=${DATABASE:-${APP_NAME}_dev}
         ports:
-          - "9000:9000"
+          - "4000:4000"
         extra_hosts:
           - "host.docker.internal:host-gateway"
-        labels:
-          dev.app_name: "${APP_NAME}"
-          dev.container_name: "${CONTAINER_NAME:-${APP_NAME}-dev}"
-          dev.database: "${DATABASE:-${APP_NAME}_dev}"
-          dev.src_path: "${APP_SRC_PATH:-.}"
         command: sleep infinity
     """
     |> String.trim_leading()
   end
 
-  defp run_script_template do
-    ~S"""
+  defp run_script_template(container_name) do
+    """
     #!/usr/bin/env bash
     set -euo pipefail
 
     PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
-    APP_NAME="$(grep -m1 'app:' "$PROJECT_ROOT/mix.exs" | sed 's/.*app: :\([a-z_]*\).*/\1/')"
-    NAME="${APP_NAME}.$(basename "$PROJECT_ROOT")"
     COMPOSE_FILE="${PROJECT_ROOT}/docker-compose.dev.yml"
 
     if [ $# -eq 0 ]; then
@@ -150,10 +142,7 @@ defmodule Mix.Tasks.DevContainer.Install do
       CMD=("$@")
     fi
 
-    export APP_NAME
-    export CONTAINER_NAME="$NAME"
-
-    if ! docker compose -p "$NAME" -f "$COMPOSE_FILE" exec -T dev true 2>/dev/null; then
+    if ! docker compose -p "#{container_name}" -f "$COMPOSE_FILE" exec -T dev true 2>/dev/null; then
       echo ""
       echo "Container nao esta rodando! Para iniciar:"
       echo ""
@@ -169,7 +158,7 @@ defmodule Mix.Tasks.DevContainer.Install do
       exit 1
     fi
 
-    exec docker compose -p "$NAME" -f "$COMPOSE_FILE" exec dev "${CMD[@]}"
+    exec docker compose -p "#{container_name}" -f "$COMPOSE_FILE" exec dev "${CMD[@]}"
     """
     |> String.trim_leading()
   end

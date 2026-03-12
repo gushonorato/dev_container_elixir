@@ -10,7 +10,7 @@ defmodule Mix.Tasks.DevContainer.Stop do
 
   @impl Mix.Task
   def run(_args) do
-    name = Mix.Tasks.DevContainer.Docker.default_name()
+    name = Mix.Tasks.DevContainer.Docker.container_name()
 
     Mix.shell().info("Stopping #{name}...")
     Mix.Tasks.DevContainer.Docker.docker_compose(["stop"])

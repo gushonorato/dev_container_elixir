@@ -26,13 +26,9 @@ All code lives under `lib/mix/tasks/` as Mix tasks following the `Mix.Tasks.DevC
 **Task modules** (each in `lib/mix/tasks/dev_container.*.ex`):
 - `Install` — generates `Dockerfile.dev`, `docker-compose.dev.yml`, and a shell script into the consuming project using embedded string templates and `Mix.Generator`
 - `Build`, `Start`, `Stop`, `Destroy` — thin wrappers around the shared `Docker` module
-- `Status` — queries running containers via Docker labels and parses metadata with `Jason`
-- `Database` — prints the convention-based container/database name
-
 **Key conventions:**
 - Container and database names use `app_name.dirname` format (e.g., `my_app.my_app` for the main project, `my_app.feature_branch` for a worktree)
-- Docker containers are tagged with labels (`dev.app_name`, `dev.database`, etc.) for service discovery by the `status` task
 - The generated Dockerfile includes Claude Code CLI, Node.js, and Playwright pre-installed
-- Environment variables (`APP_NAME`, `APP_SRC_PATH`, `CONTAINER_NAME`, `DATABASE`) are passed to Docker Compose from Mix project config
+- The `Install` task interpolates app name, container name, and database directly into the generated `docker-compose.dev.yml` at install time — no environment variables needed
 
-**Only dependency:** `jason ~> 1.4` (used in the status task for JSON parsing).
+**Only dependency:** `ex_doc ~> 0.35` (dev only, for documentation generation).

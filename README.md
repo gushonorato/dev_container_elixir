@@ -48,7 +48,6 @@ mix dev_container.start
 | `mix dev_container.stop` | Stops the dev container |
 | `mix dev_container.destroy` | Removes the dev container and its volumes |
 | `mix dev_container.status` | Shows metadata from running dev containers |
-| `mix dev_container.database` | Prints the convention-based container/database name |
 | `mix dev_container.install_ralph` | Downloads Ralph agent scripts into `scripts/ralph/` |
 
 ## Conventions

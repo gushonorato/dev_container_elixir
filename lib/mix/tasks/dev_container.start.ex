@@ -11,7 +11,7 @@ defmodule Mix.Tasks.DevContainer.Start do
 
   @impl Mix.Task
   def run(_args) do
-    name = Mix.Tasks.DevContainer.Docker.default_name()
+    name = Mix.Tasks.DevContainer.Docker.container_name()
 
     Mix.shell().info("Container: #{name}")
     Mix.shell().info("Database:  #{name}")

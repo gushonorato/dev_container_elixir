@@ -9,29 +9,18 @@ defmodule Mix.Tasks.DevContainer.Docker do
     Path.join(project_root(), "docker-compose.dev.yml")
   end
 
-  def default_name do
+  def container_name do
     app = Mix.Project.config()[:app]
     dir = project_root() |> Path.basename()
     "#{app}.#{dir}"
   end
 
-  def env(name) do
-    [
-      {"APP_NAME", "#{Mix.Project.config()[:app]}"},
-      {"APP_SRC_PATH", project_root()},
-      {"CONTAINER_NAME", name},
-      {"DATABASE", name}
-    ]
-  end
-
   def docker_compose(args, opts \\ []) do
-    name = Keyword.get(opts, :name, default_name())
-    env = Keyword.get(opts, :env, env(name))
+    name = Keyword.get(opts, :name, container_name())
 
     System.cmd(
       "docker",
       ["compose", "-p", name, "-f", compose_file()] ++ args,
-      env: env,
       into: IO.stream(:stdio, :line)
     )
   end

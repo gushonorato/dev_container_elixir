@@ -10,7 +10,7 @@ defmodule Mix.Tasks.DevContainer.Destroy do
 
   @impl Mix.Task
   def run(_args) do
-    name = Mix.Tasks.DevContainer.Docker.default_name()
+    name = Mix.Tasks.DevContainer.Docker.container_name()
 
     Mix.shell().info("Destroying #{name}...")
     Mix.Tasks.DevContainer.Docker.docker_compose(["down", "--rmi", "all", "--volumes"])
