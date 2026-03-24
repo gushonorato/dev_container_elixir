@@ -128,6 +128,7 @@ defmodule Mix.Tasks.DevContainer.Install do
           - "${HOME}/.claude_container/.claude:/home/dev/.claude"
         ports:
           - "4000:4000"
+          - "5432:5432"
         extra_hosts:
           - "host.docker.internal:host-gateway"
         command: sleep infinity
